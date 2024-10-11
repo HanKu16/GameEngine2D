@@ -7,8 +7,17 @@
 #include <SFML/Window/Window.hpp>
 
 
+Engine *Engine::pInstance = nullptr;
+
 Engine::Engine(){
     setWindowStyle("window"); 
+}
+
+Engine &Engine::getInstance(){
+    if(pInstance == nullptr)
+        pInstance = new Engine();
+
+    return *pInstance;
 }
 
 void Engine::setWindowStyle(std::string style){
@@ -18,7 +27,7 @@ void Engine::setWindowStyle(std::string style){
         else if(style == "fullscreen")
             windowStyle = sf::Style::Fullscreen;
         else 
-            throw std::invalid_argument("Wrong windowStyle declaration!");
+            throw std::invalid_argument("Wrong window style declaration!");
     }catch(std::invalid_argument &e){
         std::cerr << "Caught a invalid argument error: " << e.what() << std::endl;
     }

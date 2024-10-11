@@ -11,9 +11,13 @@ class Engine{
     private:
         sf::RenderWindow window;        
         unsigned int windowStyle;
+        static Engine *pInstance;        
+
+    private:
+        Engine();
 
     public:
-        Engine();
+        static Engine &getInstance(); 
         void setWindowStyle(std::string style);
         void buildWindow(int width, int height);
         void startLoop(std::function<void()> customLoop);

@@ -64,9 +64,9 @@ void Engine::handleEvents(){
                 window.close();
                 break;
             case sf::Event::KeyPressed:
-                for(auto keyIt = keyMap.begin(); keyIt != keyMap.end(); keyIt++){
-                    if(event.key.code == keyIt->second)
-                        keyFunctionMap[keyIt->first](); 
+                for(auto keyIt = keyFunctionMap.begin(); keyIt != keyFunctionMap.end(); keyIt++){
+                    if(event.key.code == keyMap[keyIt->first])
+                        keyIt->second(); 
                 }
                 break;
         }

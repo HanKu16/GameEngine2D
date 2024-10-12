@@ -1,6 +1,7 @@
 #include "./Engine.h"
 
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <iostream>
 #include <stdexcept>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -12,7 +13,7 @@ Engine *Engine::pInstance = nullptr;
 
 Engine::Engine(){
     setWindowStyle("window"); 
-    initKeyMap();
+    initMapping();
 }
 
 Engine &Engine::getInstance(){
@@ -50,7 +51,8 @@ void Engine::setFunctionKey(std::string keyName, std::function<void()> keyFuncti
     }
 }
 
-void Engine::initKeyMap(){
+void Engine::initMapping(){
+    //KEYBOARD MAPPING
     keyMap["Up"] = sf::Keyboard::Up;
     keyMap["Down"] = sf::Keyboard::Down;
     keyMap["Left"] = sf::Keyboard::Left;
@@ -58,6 +60,21 @@ void Engine::initKeyMap(){
     keyMap["Escape"] = sf::Keyboard::Escape;
     keyMap["Space"] = sf::Keyboard::Space;
     keyMap["Enter"] = sf::Keyboard::Enter;
+
+    // MOUSE MAPPING
+    mouseButtonsMap["Left"] = sf::Mouse::Button::Left;
+    mouseButtonsMap["Right"] = sf::Mouse::Button::Right; 
+}
+
+void Engine::setFunctionMouseButton(std::string button, std::function<void()> mouseFunction){
+    try{
+        if(mouseButtonsMap.find(button) != mouseButtonsMap.end())
+            mouseFunctionMap[button] = mouseFunction;
+        else
+            throw std::invalid_argument("Wrong button name declaration! No button like that!"); 
+    }catch(std::invalid_argument &e){
+        std::cerr << "Caught an invalid argument error: " << e.what() << std::endl;
+    }
 }
 
 mouseCords Engine::getMousePosition(){
@@ -77,10 +94,18 @@ void Engine::handleEvents(){
             case sf::Event::Closed:
                 window.close();
                 break;
+
             case sf::Event::KeyPressed:
                 for(auto keyIt = keyFunctionMap.begin(); keyIt != keyFunctionMap.end(); keyIt++){
                     if(event.key.code == keyMap[keyIt->first])
                         keyIt->second(); 
+                }
+                break;
+
+            case sf::Event::MouseButtonPressed:
+                for(auto mouseIt = mouseFunctionMap.begin(); mouseIt != mouseFunctionMap.end(); mouseIt++){
+                    if(event.mouseButton.button == mouseButtonsMap[mouseIt->first])
+                        mouseIt->second(); 
                 }
                 break;
         }

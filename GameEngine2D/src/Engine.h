@@ -11,6 +11,7 @@
 #include <string>
 
 
+
 struct mouseCords{
     int x;
     int y;
@@ -19,15 +20,23 @@ struct mouseCords{
 class Engine{ 
     private:
         sf::RenderWindow window;        
+
         unsigned int windowStyle;
+
         std::map<std::string, sf::Keyboard::Key> keyMap; 
+
         std::map<std::string, std::function<void()>> keyFunctionMap;
+
+        std::map<std::string, sf::Mouse::Button> mouseButtonsMap;
+        
+        std::map<std::string, std::function<void()>> mouseFunctionMap;
+
         static Engine *pInstance;        
 
     private:
         Engine();
 
-        void initKeyMap();
+        void initMapping();
 
         void handleEvents();
         
@@ -41,6 +50,8 @@ class Engine{
         void startLoop(std::function<void()> customLoop);
 
         void setFunctionKey(std::string keyName, std::function<void()> keyFunction);
+
+        void setFunctionMouseButton(std::string button, std::function<void()> mouseFunction);
         
         mouseCords getMousePosition();
 };

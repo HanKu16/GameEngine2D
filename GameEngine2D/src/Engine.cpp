@@ -11,6 +11,14 @@ Engine *Engine::pInstance = nullptr;
 
 Engine::Engine(){
     setWindowStyle("window"); 
+
+    keyMap["Up"] = sf::Keyboard::Up;
+    keyMap["Down"] = sf::Keyboard::Down;
+    keyMap["Left"] = sf::Keyboard::Left;
+    keyMap["Right"] = sf::Keyboard::Right;
+    keyMap["Escape"] = sf::Keyboard::Escape;
+    keyMap["Space"] = sf::Keyboard::Space;
+    keyMap["Enter"] = sf::Keyboard::Enter;
 }
 
 Engine &Engine::getInstance(){
@@ -29,7 +37,7 @@ void Engine::setWindowStyle(std::string style){
         else 
             throw std::invalid_argument("Wrong window style declaration!");
     }catch(std::invalid_argument &e){
-        std::cerr << "Caught a invalid argument error: " << e.what() << std::endl;
+        std::cerr << "Caught an invalid argument error: " << e.what() << std::endl;
     }
 }
 
@@ -37,8 +45,38 @@ void Engine::buildWindow(int width, int height){
     window.create(sf::VideoMode(width, height), "Engine Window", windowStyle);  
 }
 
+void Engine::setFunctionKey(std::string keyName, std::function<void()> keyFunction){
+    try{
+        if(keyMap.find(keyName) != keyMap.end())
+            keyFunctionMap[keyName] = keyFunction;
+        else
+            throw std::invalid_argument("Wrong keyName declaration! No keyName like that!"); 
+    }catch(std::invalid_argument &e){
+        std::cerr << "Caught an invalid argument error: " << e.what() << std::endl;
+    }
+}
+
+void Engine::handleEvents(){
+    sf::Event event;
+    while(window.pollEvent(event)){
+        switch(event.type){
+            case sf::Event::Closed:
+                window.close();
+                break;
+            case sf::Event::KeyPressed:
+                for(auto keyIt = keyMap.begin(); keyIt != keyMap.end(); keyIt++){
+                    if(event.key.code == keyIt->second)
+                        keyFunctionMap[keyIt->first](); 
+                }
+                break;
+        }
+    }
+}
+
 void Engine::startLoop(std::function<void()> customLoop){
     while(window.isOpen()){
+
+        handleEvents();
 
         customLoop();
 

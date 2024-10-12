@@ -4,11 +4,17 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/Window.hpp>
 #include <functional>
 #include <map>
 #include <string>
 
+
+struct mouseCords{
+    int x;
+    int y;
+};
 
 class Engine{ 
     private:
@@ -20,6 +26,8 @@ class Engine{
 
     private:
         Engine();
+
+        void initKeyMap();
 
         void handleEvents();
         
@@ -33,6 +41,8 @@ class Engine{
         void startLoop(std::function<void()> customLoop);
 
         void setFunctionKey(std::string keyName, std::function<void()> keyFunction);
+        
+        mouseCords getMousePosition();
 };
 
 

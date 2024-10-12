@@ -1,5 +1,6 @@
 #include "./Engine.h"
 
+#include <SFML/System/Vector2.hpp>
 #include <iostream>
 #include <stdexcept>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -11,14 +12,7 @@ Engine *Engine::pInstance = nullptr;
 
 Engine::Engine(){
     setWindowStyle("window"); 
-
-    keyMap["Up"] = sf::Keyboard::Up;
-    keyMap["Down"] = sf::Keyboard::Down;
-    keyMap["Left"] = sf::Keyboard::Left;
-    keyMap["Right"] = sf::Keyboard::Right;
-    keyMap["Escape"] = sf::Keyboard::Escape;
-    keyMap["Space"] = sf::Keyboard::Space;
-    keyMap["Enter"] = sf::Keyboard::Enter;
+    initKeyMap();
 }
 
 Engine &Engine::getInstance(){
@@ -54,6 +48,26 @@ void Engine::setFunctionKey(std::string keyName, std::function<void()> keyFuncti
     }catch(std::invalid_argument &e){
         std::cerr << "Caught an invalid argument error: " << e.what() << std::endl;
     }
+}
+
+void Engine::initKeyMap(){
+    keyMap["Up"] = sf::Keyboard::Up;
+    keyMap["Down"] = sf::Keyboard::Down;
+    keyMap["Left"] = sf::Keyboard::Left;
+    keyMap["Right"] = sf::Keyboard::Right;
+    keyMap["Escape"] = sf::Keyboard::Escape;
+    keyMap["Space"] = sf::Keyboard::Space;
+    keyMap["Enter"] = sf::Keyboard::Enter;
+}
+
+mouseCords Engine::getMousePosition(){
+    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+    mouseCords mousePositionStruct;
+    mousePositionStruct.x = mousePosition.x;
+    mousePositionStruct.y = mousePosition.y;
+
+    return mousePositionStruct;
+
 }
 
 void Engine::handleEvents(){

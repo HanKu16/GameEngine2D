@@ -2,6 +2,7 @@
 #define ENGINE_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
@@ -21,7 +22,11 @@ class Engine{
     private:
         sf::RenderWindow window;        
 
+        int windowResolution[2];
+
         unsigned int windowStyle;
+
+        int fps;
 
         std::map<std::string, sf::Keyboard::Key> keyMap; 
 
@@ -39,13 +44,15 @@ class Engine{
         void initMapping();
 
         void handleEvents();
-        
+
     public:
         static Engine &getInstance(); 
 
-        void setWindowStyle(std::string style);
+        void setWindowSettings(int width, int height, std::string style);
+        
+        void setMaxFPS(int inFPS);
 
-        void buildWindow(int width, int height);
+        void clearToColor(int r, int g, int b);
 
         void startLoop(std::function<void()> customLoop);
 

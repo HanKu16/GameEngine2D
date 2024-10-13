@@ -12,7 +12,8 @@
 Engine *Engine::pInstance = nullptr;
 
 Engine::Engine(){
-    setWindowStyle("window"); 
+    setWindowSettings(800, 600, "window"); 
+    setMaxFPS(30);
     initMapping();
 }
 
@@ -23,21 +24,34 @@ Engine &Engine::getInstance(){
     return *pInstance;
 }
 
-void Engine::setWindowStyle(std::string style){
+void Engine::setWindowSettings(int width, int height, std::string style){
     try{
+        if(window.isOpen())
+            window.close();
+
+        windowResolution[0] = width; 
+        windowResolution[1] = height;
+
         if(style == "window")
             windowStyle = sf::Style::Default;
         else if(style == "fullscreen")
             windowStyle = sf::Style::Fullscreen;
         else 
             throw std::invalid_argument("Wrong window style declaration!");
+
+        window.create(sf::VideoMode(windowResolution[0], windowResolution[1]), "Engine Window", windowStyle);
+
     }catch(std::invalid_argument &e){
         std::cerr << "Caught an invalid argument error: " << e.what() << std::endl;
     }
 }
 
-void Engine::buildWindow(int width, int height){
-    window.create(sf::VideoMode(width, height), "Engine Window", windowStyle);  
+void Engine::setMaxFPS(int inFPS){
+    window.setFramerateLimit(inFPS);
+}
+
+void Engine::clearToColor(int r, int g, int b){
+    window.clear(sf::Color(r, g, b));
 }
 
 void Engine::setFunctionKey(std::string keyName, std::function<void()> keyFunction){

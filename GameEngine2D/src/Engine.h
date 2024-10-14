@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
@@ -28,6 +29,8 @@ class Engine{
 
         int fps;
 
+        sf::Clock clock;
+
         std::map<std::string, sf::Keyboard::Key> keyMap; 
 
         std::map<std::string, std::function<void()>> keyFunctionMap;
@@ -51,6 +54,10 @@ class Engine{
         void setWindowSettings(int width, int height, std::string style);
         
         void setMaxFPS(int inFPS);
+
+        float getElapsedTime();
+
+        void restartClock();
 
         void clearToColor(int r, int g, int b);
 

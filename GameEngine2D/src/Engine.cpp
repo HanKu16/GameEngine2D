@@ -50,6 +50,14 @@ void Engine::setMaxFPS(int inFPS){
     window.setFramerateLimit(inFPS);
 }
 
+float Engine::getElapsedTime(){
+    return clock.getElapsedTime().asSeconds();
+}
+
+void Engine::restartClock(){
+    clock.restart();
+}
+
 void Engine::clearToColor(int r, int g, int b){
     window.clear(sf::Color(r, g, b));
 }

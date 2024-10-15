@@ -1,5 +1,10 @@
 #include "./Point2D.h"
 
-Point2D::Point2D(int xInput, int yInput) : x(xInput), y(yInput){
+#include <cmath>
 
+
+Point2D::Point2D(float xInput, float yInput){
+    x = round(xInput);
+    y = round(yInput);
 }
+

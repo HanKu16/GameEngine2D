@@ -2,10 +2,10 @@
 
 class Point2D{
     public:
-        float x;
-        float y;
+        int x;
+        int y;
     
     public:
-        Point2D(int xInput, int yInput);
+        Point2D(float xInput, float yInput);
 
 };

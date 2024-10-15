@@ -1,6 +1,8 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include "./PrimitiveRenderer.h"
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Clock.hpp>
@@ -19,6 +21,8 @@ struct mouseCords{
     int y;
 };
 
+
+//TODO delete try and catch and enum the keys
 class Engine{ 
     private:
         sf::RenderWindow window;        
@@ -59,7 +63,7 @@ class Engine{
 
         void restartClock();
 
-        void clearToColor(int r, int g, int b);
+        void clearToColor(Color color);
 
         void startLoop(std::function<void()> customLoop);
 

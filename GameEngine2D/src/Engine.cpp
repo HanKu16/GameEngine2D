@@ -58,8 +58,8 @@ void Engine::restartClock(){
     clock.restart();
 }
 
-void Engine::clearToColor(int r, int g, int b){
-    window.clear(sf::Color(r, g, b));
+void Engine::clearToColor(Color color){
+    window.clear(sf::Color(color.r, color.g, color.b));
 }
 
 void Engine::setFunctionKey(std::string keyName, std::function<void()> keyFunction){
@@ -88,6 +88,7 @@ void Engine::initMapping(){
     mouseButtonsMap["Right"] = sf::Mouse::Button::Right; 
 }
 
+//TODO ENUM BUTTONS
 void Engine::setFunctionMouseButton(std::string button, std::function<void()> mouseFunction){
     try{
         if(mouseButtonsMap.find(button) != mouseButtonsMap.end())

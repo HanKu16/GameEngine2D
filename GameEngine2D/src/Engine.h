@@ -15,6 +15,20 @@
 #include <string>
 
 
+enum Keyboard{
+    Up = sf::Keyboard::Up,
+    Down = sf::Keyboard::Down,
+    Left = sf::Keyboard::Left,
+    Right = sf::Keyboard::Right,
+    Escape = sf::Keyboard::Escape,
+    Space = sf::Keyboard::Space,
+    Enter = sf::Keyboard::Enter,
+};
+
+enum Mouse{
+    LeftClick = sf::Mouse::Button::Left,
+    RightClick = sf::Mouse::Button::Right,
+};
 
 struct mouseCords{
     int x;
@@ -35,20 +49,14 @@ class Engine{
 
         sf::Clock clock;
 
-        std::map<std::string, sf::Keyboard::Key> keyMap; 
+        std::map<Keyboard, std::function<void()>> keyFunctionMap;
 
-        std::map<std::string, std::function<void()>> keyFunctionMap;
-
-        std::map<std::string, sf::Mouse::Button> mouseButtonsMap;
-        
-        std::map<std::string, std::function<void()>> mouseFunctionMap;
+        std::map<Mouse, std::function<void()>> mouseFunctionMap;
 
         static Engine *pInstance;        
 
     private:
         Engine();
-
-        void initMapping();
 
         void handleEvents();
 
@@ -67,9 +75,9 @@ class Engine{
 
         void startLoop(std::function<void()> customLoop);
 
-        void setFunctionKey(std::string keyName, std::function<void()> keyFunction);
+        void setFunctionKey(Keyboard key, std::function<void()> keyFunction);
 
-        void setFunctionMouseButton(std::string button, std::function<void()> mouseFunction);
+        void setFunctionMouseButton(Mouse button, std::function<void()> mouseFunction);
         
         mouseCords getMousePosition();
 };

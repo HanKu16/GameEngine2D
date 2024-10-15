@@ -1,6 +1,7 @@
 #include "./Engine.h"
 
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <iostream>
 #include <stdexcept>
@@ -14,7 +15,6 @@ Engine *Engine::pInstance = nullptr;
 Engine::Engine(){
     setWindowSettings(800, 600, "window"); 
     setMaxFPS(30);
-    initMapping();
 }
 
 Engine &Engine::getInstance(){
@@ -62,42 +62,12 @@ void Engine::clearToColor(Color color){
     window.clear(sf::Color(color.r, color.g, color.b));
 }
 
-void Engine::setFunctionKey(std::string keyName, std::function<void()> keyFunction){
-    try{
-        if(keyMap.find(keyName) != keyMap.end())
-            keyFunctionMap[keyName] = keyFunction;
-        else
-            throw std::invalid_argument("Wrong keyName declaration! No keyName like that!"); 
-    }catch(std::invalid_argument &e){
-        std::cerr << "Caught an invalid argument error: " << e.what() << std::endl;
-    }
+void Engine::setFunctionKey(Keyboard key, std::function<void()> keyFunction){
+    keyFunctionMap[key] = keyFunction;
 }
 
-void Engine::initMapping(){
-    //KEYBOARD MAPPING
-    keyMap["Up"] = sf::Keyboard::Up;
-    keyMap["Down"] = sf::Keyboard::Down;
-    keyMap["Left"] = sf::Keyboard::Left;
-    keyMap["Right"] = sf::Keyboard::Right;
-    keyMap["Escape"] = sf::Keyboard::Escape;
-    keyMap["Space"] = sf::Keyboard::Space;
-    keyMap["Enter"] = sf::Keyboard::Enter;
-
-    // MOUSE MAPPING
-    mouseButtonsMap["Left"] = sf::Mouse::Button::Left;
-    mouseButtonsMap["Right"] = sf::Mouse::Button::Right; 
-}
-
-//TODO ENUM BUTTONS
-void Engine::setFunctionMouseButton(std::string button, std::function<void()> mouseFunction){
-    try{
-        if(mouseButtonsMap.find(button) != mouseButtonsMap.end())
-            mouseFunctionMap[button] = mouseFunction;
-        else
-            throw std::invalid_argument("Wrong button name declaration! No button like that!"); 
-    }catch(std::invalid_argument &e){
-        std::cerr << "Caught an invalid argument error: " << e.what() << std::endl;
-    }
+void Engine::setFunctionMouseButton(Mouse button, std::function<void()> mouseFunction){
+    mouseFunctionMap[button] = mouseFunction;
 }
 
 mouseCords Engine::getMousePosition(){
@@ -120,14 +90,14 @@ void Engine::handleEvents(){
 
             case sf::Event::KeyPressed:
                 for(auto keyIt = keyFunctionMap.begin(); keyIt != keyFunctionMap.end(); keyIt++){
-                    if(event.key.code == keyMap[keyIt->first])
+                    if(event.key.code == static_cast<sf::Keyboard::Key>(keyIt->first))
                         keyIt->second(); 
                 }
                 break;
 
             case sf::Event::MouseButtonPressed:
                 for(auto mouseIt = mouseFunctionMap.begin(); mouseIt != mouseFunctionMap.end(); mouseIt++){
-                    if(event.mouseButton.button == mouseButtonsMap[mouseIt->first])
+                    if(event.mouseButton.button == static_cast<sf::Mouse::Button>(mouseIt->first))
                         mouseIt->second(); 
                 }
                 break;

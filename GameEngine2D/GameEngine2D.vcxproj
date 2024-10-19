@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine.h" />
+    <ClInclude Include="src\LineSegment.h" />
     <ClInclude Include="src\Point2D.h" />
     <ClInclude Include="src\PrimitiveRenderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\LineSegment.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\Point2D.cpp" />

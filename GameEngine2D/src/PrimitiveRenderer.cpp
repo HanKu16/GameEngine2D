@@ -1,4 +1,6 @@
-#include "PrimitiveRenderer.h"
+#include "./PrimitiveRenderer.h"
+#include "./Point2D.h"
+#include "./LineSegment.h"
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Image.hpp>
@@ -42,6 +44,11 @@ sf::Image PrimitiveRenderer::drawLine(Point2D p1, Point2D p2, ColorRGB color, sf
         }
     }
 
+    return image;
+}
+
+sf::Image PrimitiveRenderer::drawLineUsingDDA(LineSegment line, ColorRGB color, sf::Image& image) {
+    drawLine(line.p1, line.p2, color, image);
     return image;
 }
 

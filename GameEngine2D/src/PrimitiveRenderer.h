@@ -14,7 +14,8 @@ class PrimitiveRenderer{
     public:
         sf::Image drawPoint(Point2D point, ColorRGB color, sf::Image &image);
         sf::Image drawLine(Point2D p1, Point2D p2, ColorRGB color, sf::Image& image);
-        sf::Image drawLineUsingDDA(LineSegment line, ColorRGB, sf::Image& image);
+        sf::Image drawLineUsingDDA(LineSegment line, ColorRGB color, sf::Image& image);
+        sf::Image drawLineUsingDefault(const LineSegment& line, ColorRGB color, sf::Image& image);
         sf::Image drawRectangle(Point2D p1, Point2D p2, Point2D p3, Point2D p4,
             ColorRGB color, sf::Image& image);
         sf::Image drawTriangle(Point2D p1, Point2D p2, Point2D p3, ColorRGB color, sf::Image& image);

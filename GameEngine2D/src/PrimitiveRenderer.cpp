@@ -45,6 +45,17 @@ sf::Image PrimitiveRenderer::drawLine(Point2D p1, Point2D p2, ColorRGB color, sf
     return image;
 }
 
+sf::Image PrimitiveRenderer::drawRectangle(Point2D p1, Point2D p2, Point2D p3, Point2D p4, 
+    ColorRGB color, sf::Image& image) {
+    drawLine(p1, p2, color, image);
+    drawLine(p2, p3, color, image);
+    drawLine(p3, p4, color, image);
+    drawLine(p4, p1, color, image);
+    return image;
+}
+
+sf::I
+
 double PrimitiveRenderer::getAbsolute(double value)
 {
     return value > 0 ? value : value * (-1);

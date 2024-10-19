@@ -92,6 +92,15 @@ sf::Image PrimitiveRenderer::drawLineUsingDefault(const LineSegment& line,
 
 }
 
+sf::Image PrimitiveRenderer::drawDashedLine(std::vector<LineSegment> lines, 
+    ColorRGB color, sf::Image& image)
+{
+    for (const LineSegment& line : lines) {
+        drawLineUsingDDA(line, color, image);
+    }
+    return image;
+}
+
 sf::Image PrimitiveRenderer::drawRectangle(Point2D p1, Point2D p2, Point2D p3, Point2D p4, 
     ColorRGB color, sf::Image& image) {
     drawLine(p1, p2, color, image);

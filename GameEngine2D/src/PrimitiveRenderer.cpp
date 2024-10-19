@@ -99,6 +99,21 @@ sf::Image PrimitiveRenderer::drawLineUsingDefault(const LineSegment& line,
 
 }
 
+void PrimitiveRenderer::drawOpenLine(std::vector<Point2D> points, ColorRGB color, sf::Image& image)
+{
+    if (points.empty() || points.size() < 2) {
+        return;
+    }
+
+    Point2D& lastPoint = *points.begin();
+
+    for (int i = 1; i < points.size(); ++i) {
+        Point2D& currentPoint = points[i];
+        drawLine(lastPoint, currentPoint, color, image);
+        lastPoint = currentPoint;
+    }
+}
+
 sf::Image PrimitiveRenderer::drawDashedLine(std::vector<LineSegment> lines, 
     ColorRGB color, sf::Image& image)
 {

@@ -31,3 +31,9 @@ sf::Image PrimitiveRenderer::drawLine(Point2D p1, Point2D p2, ColorRGB color, sf
     return image;
 }
 
+double PrimitiveRenderer::getAbsolute(double value)
+{
+    return value > 0 ? value : value * (-1);
+}
+
+

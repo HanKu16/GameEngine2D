@@ -79,8 +79,7 @@ sf::Image PrimitiveRenderer::drawLineUsingDefault(const LineSegment& line,
             double y = (m * (x - p1.x)) + p1.y;
             image.setPixel(x, y, sf::Color(color.r, color.g, color.b));
         }
-    }
-    else {
+    } else {
         if (p1.y > p2.y) {
             std::swap(p1, p2);
             dx = p2.x - p1.x;
@@ -112,6 +111,23 @@ void PrimitiveRenderer::drawOpenLine(std::vector<Point2D> points, ColorRGB color
         drawLine(lastPoint, currentPoint, color, image);
         lastPoint = currentPoint;
     }
+}
+
+void PrimitiveRenderer::drawClosedLine(std::vector<Point2D> points, ColorRGB color, sf::Image& image)
+{
+    if (points.empty() || points.size() < 3) {
+        return;
+    }
+
+    Point2D firstPoint = points[0];
+    Point2D lastPoint = firstPoint;
+
+    for (size_t i = 1; i < points.size(); ++i) {
+        Point2D currentPoint = points[i];
+        drawLine(lastPoint, currentPoint, color, image);
+        lastPoint = currentPoint;
+    }
+    drawLine(lastPoint, firstPoint, color, image);
 }
 
 sf::Image PrimitiveRenderer::drawDashedLine(std::vector<LineSegment> lines, 

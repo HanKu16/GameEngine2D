@@ -71,7 +71,7 @@ class Engine{
 
         void restartClock();
 
-        void clearToColor(Color color);
+        void clearToColor(ColorRGB color);
 
         void startLoop(std::function<void()> customLoop);
 

@@ -1,6 +1,6 @@
 #include "./Point2D.h"
 
-struct Color{
+struct ColorRGB{
     int r;
     int g;
     int b;
@@ -15,6 +15,6 @@ class PrimitiveRenderer{
 
     public:
         static PrimitiveRenderer &getInstance();
-        void drawPoint(Point2D point, Color color);
+        void drawPoint(Point2D point, ColorRGB color);
 
 };

@@ -58,7 +58,7 @@ void Engine::restartClock(){
     clock.restart();
 }
 
-void Engine::clearToColor(Color color){
+void Engine::clearToColor(ColorRGB color){
     window.clear(sf::Color(color.r, color.g, color.b));
 }
 

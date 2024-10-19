@@ -1,5 +1,8 @@
 #include "./Point2D.h"
 
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Image.hpp>
+
 struct ColorRGB{
     int r;
     int g;
@@ -7,14 +10,6 @@ struct ColorRGB{
 };
 
 class PrimitiveRenderer{
-    private:
-        static PrimitiveRenderer *pInstance; 
-
-    private:
-        PrimitiveRenderer();
-
     public:
-        static PrimitiveRenderer &getInstance();
-        void drawPoint(Point2D point, ColorRGB color);
-
+        sf::Image drawPoint(Point2D point, ColorRGB color, sf::Image &image);
 };

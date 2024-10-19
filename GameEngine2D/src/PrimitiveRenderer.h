@@ -14,16 +14,15 @@ struct ColorRGB{
 class PrimitiveRenderer{
     public:
         PrimitiveRenderer(sf::Image* image, int imageWidth, int imageHeight);
-        sf::Image drawPoint(Point2D point, ColorRGB color, sf::Image &image);
-        sf::Image drawLine(Point2D p1, Point2D p2, ColorRGB color, sf::Image& image);
-        sf::Image drawLineUsingDDA(LineSegment line, ColorRGB color, sf::Image& image);
-        sf::Image drawLineUsingDefault(const LineSegment& line, ColorRGB color, sf::Image& image);
-        void drawOpenLine(std::vector<Point2D> points, ColorRGB color, sf::Image& image);
-        void drawClosedLine(std::vector<Point2D> points, ColorRGB color, sf::Image& image);
-        sf::Image drawDashedLine(std::vector<LineSegment> lines, ColorRGB color, sf::Image& image);
-        sf::Image drawRectangle(Point2D p1, Point2D p2, Point2D p3, Point2D p4,
-            ColorRGB color, sf::Image& image);
-        sf::Image drawTriangle(Point2D p1, Point2D p2, Point2D p3, ColorRGB color, sf::Image& image);
+        void drawPoint(Point2D point, ColorRGB color);
+        void drawLine(Point2D p1, Point2D p2, ColorRGB color);
+        void drawLineUsingDDA(LineSegment line, ColorRGB color);
+        void drawLineUsingDefault(const LineSegment& line, ColorRGB color);
+        void drawOpenLine(std::vector<Point2D> points, ColorRGB color);
+        void drawClosedLine(std::vector<Point2D> points, ColorRGB color);
+        void drawDashedLine(std::vector<LineSegment> lines, ColorRGB color);
+        void drawRectangle(Point2D p1, Point2D p2, Point2D p3, Point2D p4, ColorRGB color);
+        void drawTriangle(Point2D p1, Point2D p2, Point2D p3, ColorRGB color);
 
     private:
         double getAbsolute(double value);

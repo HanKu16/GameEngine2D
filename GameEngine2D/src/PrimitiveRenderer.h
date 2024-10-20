@@ -23,6 +23,7 @@ class PrimitiveRenderer{
         void drawDashedLine(std::vector<LineSegment> lines, ColorRGB color);
         void drawRectangle(Point2D p1, Point2D p2, Point2D p3, Point2D p4, ColorRGB color);
         void drawTriangle(Point2D p1, Point2D p2, Point2D p3, ColorRGB color);
+        void drawCircle(Point2D center, int radius, ColorRGB color);
 
     private:
         double getAbsolute(double value);

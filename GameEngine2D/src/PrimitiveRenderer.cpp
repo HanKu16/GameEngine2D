@@ -139,8 +139,39 @@ void PrimitiveRenderer::drawTriangle(Point2D p1, Point2D p2, Point2D p3, ColorRG
     drawLine(p3, p1, color);
 }
 
-double PrimitiveRenderer::getAbsolute(double value)
-{
+void PrimitiveRenderer::drawCircle(Point2D center, int radius, ColorRGB color) {
+    if (radius <= 0) {
+        return;
+    }
+
+    int x0 = center.x;
+    int y0 = center.y;
+
+    int x = radius;
+    int y = 0;
+    int decisionOver2 = 1 - x;
+
+    while (x >= y) {
+        (*image).setPixel(x0 + x, y0 + y, sf::Color(color.r, color.g, color.b));
+        (*image).setPixel(x0 + y, y0 + x, sf::Color(color.r, color.g, color.b));
+        (*image).setPixel(x0 - y, y0 + x, sf::Color(color.r, color.g, color.b));
+        (*image).setPixel(x0 - x, y0 + y, sf::Color(color.r, color.g, color.b));
+        (*image).setPixel(x0 - x, y0 - y, sf::Color(color.r, color.g, color.b));
+        (*image).setPixel(x0 - y, y0 - x, sf::Color(color.r, color.g, color.b));
+        (*image).setPixel(x0 + y, y0 - x, sf::Color(color.r, color.g, color.b));
+        (*image).setPixel(x0 + x, y0 - y, sf::Color(color.r, color.g, color.b));
+
+        y++;
+        if (decisionOver2 <= 0) {
+            decisionOver2 += 2 * y + 1;
+        } else {
+            x--;
+            decisionOver2 += 2 * (y - x) + 1;
+        }
+    }
+}
+
+double PrimitiveRenderer::getAbsolute(double value) {
     return value > 0 ? value : value * (-1);
 }
 

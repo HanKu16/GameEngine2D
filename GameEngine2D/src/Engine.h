@@ -2,6 +2,9 @@
 #define ENGINE_H
 
 #include "./PrimitiveRenderer.h"
+#include "../src/Point2D.h"
+#include "../src/LineSegment.h"
+
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
@@ -46,11 +49,20 @@ struct WindowResolution{
     int height;
 };
 
+struct ImageConf{
+    sf::Image *image;
+    int width;
+    int height;
+};
+
+
 class Engine{ 
     private:
         sf::RenderWindow window;        
 
         WindowResolution windowResolution;
+
+        sf::Image image;
 
         int fps;
 
@@ -67,10 +79,14 @@ class Engine{
 
         void handleEvents();
 
+        void drawWindow();
+
     public:
         static Engine &getInstance(); 
 
         void setWindowSettings(int width, int height, WindowStyle style);
+
+        ImageConf getImageConf();
         
         void setMaxFPS(int inFPS);
 

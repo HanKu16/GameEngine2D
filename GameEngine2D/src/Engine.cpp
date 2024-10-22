@@ -11,8 +11,9 @@
 Engine *Engine::pInstance = nullptr;
 
 Engine::Engine(){
-    setWindowSettings(800, 600, Window); 
+    setWindowSettings(800, 800, Window);  
     setMaxFPS(30);
+    image.create(windowResolution.width, windowResolution.height, sf::Color::Black);
 }
 
 Engine &Engine::getInstance(){
@@ -31,6 +32,10 @@ void Engine::setWindowSettings(int width, int height, WindowStyle style){
 
     window.create(sf::VideoMode(windowResolution.width, windowResolution.height), "Engine Window", style);
 
+}
+
+ImageConf Engine::getImageConf(){
+    return ImageConf{&image, windowResolution.width, windowResolution.height};
 }
 
 void Engine::setMaxFPS(int inFPS){
@@ -92,6 +97,16 @@ void Engine::handleEvents(){
     }
 }
 
+void Engine::drawWindow(){
+    sf::Texture texture;
+    texture.loadFromImage(image);
+
+    sf::Sprite sprite;
+    sprite.setTexture(texture);
+
+    window.draw(sprite);
+}
+
 void Engine::startLoop(std::function<void()> customLoop){
     while(window.isOpen()){
 
@@ -99,6 +114,7 @@ void Engine::startLoop(std::function<void()> customLoop){
 
         customLoop();
 
+        drawWindow();
         window.display();
     }
 }

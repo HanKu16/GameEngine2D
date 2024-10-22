@@ -10,10 +10,16 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/Window.hpp>
+#include <SFML/Window/WindowStyle.hpp>
 #include <functional>
 #include <map>
 #include <string>
 
+
+enum WindowStyle{
+    Window = sf::Style::Default,
+    Fullscreen = sf::Style::Fullscreen
+};
 
 enum Keyboard{
     Up = sf::Keyboard::Up,
@@ -30,20 +36,21 @@ enum Mouse{
     RightClick = sf::Mouse::Button::Right,
 };
 
-struct mouseCords{
+struct MouseCords{
     int x;
     int y;
 };
 
+struct WindowResolution{
+    int width;
+    int height;
+};
 
-//TODO delete try and catch and enum the keys
 class Engine{ 
     private:
         sf::RenderWindow window;        
 
-        int windowResolution[2];
-
-        unsigned int windowStyle;
+        WindowResolution windowResolution;
 
         int fps;
 
@@ -63,7 +70,7 @@ class Engine{
     public:
         static Engine &getInstance(); 
 
-        void setWindowSettings(int width, int height, std::string style);
+        void setWindowSettings(int width, int height, WindowStyle style);
         
         void setMaxFPS(int inFPS);
 
@@ -79,7 +86,7 @@ class Engine{
 
         void setFunctionMouseButton(Mouse button, std::function<void()> mouseFunction);
         
-        mouseCords getMousePosition();
+        MouseCords getMousePosition();
 };
 
 

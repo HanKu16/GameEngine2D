@@ -3,8 +3,6 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
-#include <iostream>
-#include <stdexcept>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <SFML/Window/Window.hpp>
@@ -13,7 +11,7 @@
 Engine *Engine::pInstance = nullptr;
 
 Engine::Engine(){
-    setWindowSettings(800, 600, "window"); 
+    setWindowSettings(800, 600, Window); 
     setMaxFPS(30);
 }
 
@@ -24,26 +22,15 @@ Engine &Engine::getInstance(){
     return *pInstance;
 }
 
-void Engine::setWindowSettings(int width, int height, std::string style){
-    try{
-        if(window.isOpen())
-            window.close();
+void Engine::setWindowSettings(int width, int height, WindowStyle style){
+    if(window.isOpen())
+        window.close();
 
-        windowResolution[0] = width; 
-        windowResolution[1] = height;
+    windowResolution.width = width; 
+    windowResolution.height = height;
 
-        if(style == "window")
-            windowStyle = sf::Style::Default;
-        else if(style == "fullscreen")
-            windowStyle = sf::Style::Fullscreen;
-        else 
-            throw std::invalid_argument("Wrong window style declaration!");
+    window.create(sf::VideoMode(windowResolution.width, windowResolution.height), "Engine Window", style);
 
-        window.create(sf::VideoMode(windowResolution[0], windowResolution[1]), "Engine Window", windowStyle);
-
-    }catch(std::invalid_argument &e){
-        std::cerr << "Caught an invalid argument error: " << e.what() << std::endl;
-    }
 }
 
 void Engine::setMaxFPS(int inFPS){
@@ -70,9 +57,9 @@ void Engine::setFunctionMouseButton(Mouse button, std::function<void()> mouseFun
     mouseFunctionMap[button] = mouseFunction;
 }
 
-mouseCords Engine::getMousePosition(){
+MouseCords Engine::getMousePosition(){
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-    mouseCords mousePositionStruct;
+    MouseCords mousePositionStruct;
     mousePositionStruct.x = mousePosition.x;
     mousePositionStruct.y = mousePosition.y;
 

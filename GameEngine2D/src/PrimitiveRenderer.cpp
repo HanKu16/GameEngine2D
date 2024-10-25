@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Image.hpp>
+#include<stack>
 
 
 PrimitiveRenderer::PrimitiveRenderer(sf::Image* image, int imageWidth, int imageHeight) {
@@ -13,7 +14,7 @@ PrimitiveRenderer::PrimitiveRenderer(sf::Image* image, int imageWidth, int image
 }
 
 void PrimitiveRenderer::drawPoint(Point2D point, ColorRGB color) {
-	(*image).setPixel(point.x, point.y, sf::Color(color.r, color.g, color.b));
+    (*image).setPixel(point.x, point.y, sf::Color(color.r, color.g, color.b));
 }
 
 void PrimitiveRenderer::drawLine(Point2D p1, Point2D p2, ColorRGB color) {
@@ -34,7 +35,8 @@ void PrimitiveRenderer::drawLine(Point2D p1, Point2D p2, ColorRGB color) {
             (*image).setPixel(x, y, sf::Color(color.r, color.g, color.b));
             y += m;
         }
-    } else {
+    }
+    else {
         if (p1.y > p2.y) {
             std::swap(p1, p2);
             dx = p2.x - p1.x;
@@ -73,7 +75,8 @@ void PrimitiveRenderer::drawLineUsingDefault(const LineSegment& line, ColorRGB c
             double y = (m * (x - p1.x)) + p1.y;
             (*image).setPixel(x, y, sf::Color(color.r, color.g, color.b));
         }
-    } else {
+    }
+    else {
         if (p1.y > p2.y) {
             std::swap(p1, p2);
             dx = p2.x - p1.x;
@@ -125,7 +128,7 @@ void PrimitiveRenderer::drawDashedLine(std::vector<LineSegment> lines, ColorRGB 
     }
 }
 
-void PrimitiveRenderer::drawRectangle(Point2D p1, Point2D p2, 
+void PrimitiveRenderer::drawRectangle(Point2D p1, Point2D p2,
     Point2D p3, Point2D p4, ColorRGB color) {
     drawLine(p1, p2, color);
     drawLine(p2, p3, color);
@@ -164,9 +167,52 @@ void PrimitiveRenderer::drawCircle(Point2D center, int radius, ColorRGB color) {
         y++;
         if (decisionOver2 <= 0) {
             decisionOver2 += 2 * y + 1;
-        } else {
+        }
+        else {
             x--;
             decisionOver2 += 2 * (y - x) + 1;
+        }
+    }
+}
+
+void PrimitiveRenderer::boundaryFill(Point2D p, ColorRGB fillColor, ColorRGB boundaryColor) {
+    std::stack<Point2D> pointsStack;
+    pointsStack.push(p);
+
+    while (!pointsStack.empty()) {
+        Point2D point = pointsStack.top();
+        pointsStack.pop();
+
+        sf::Color currentColor = (*image).getPixel(point.x, point.y);
+
+        if (currentColor != sf::Color(boundaryColor.r, boundaryColor.g, boundaryColor.b) && currentColor != sf::Color(fillColor.r, fillColor.g, fillColor.b)) {
+            (*image).setPixel(point.x, point.y, sf::Color(fillColor.r, fillColor.g, fillColor.b));
+
+            pointsStack.push(Point2D(point.x + 1, point.y));
+            pointsStack.push(Point2D(point.x - 1, point.y));
+            pointsStack.push(Point2D(point.x, point.y + 1));
+            pointsStack.push(Point2D(point.x, point.y - 1));
+        }
+    }
+}
+
+void PrimitiveRenderer::floodFill(Point2D p, ColorRGB fillColor, ColorRGB backgroundColor) {
+    std::stack<Point2D> pointsStack;
+    pointsStack.push(p);
+
+    while (!pointsStack.empty()) {
+        Point2D point = pointsStack.top();
+        pointsStack.pop();
+
+        sf::Color currentColor = (*image).getPixel(point.x, point.y);
+
+        if (currentColor == sf::Color(backgroundColor.r, backgroundColor.g, backgroundColor.b) && currentColor != sf::Color(fillColor.r, fillColor.g, fillColor.b)) {
+            (*image).setPixel(point.x, point.y, sf::Color(fillColor.r, fillColor.g, fillColor.b));
+
+            pointsStack.push(Point2D(point.x + 1, point.y));
+            pointsStack.push(Point2D(point.x - 1, point.y));
+            pointsStack.push(Point2D(point.x, point.y + 1));
+            pointsStack.push(Point2D(point.x, point.y - 1));
         }
     }
 }

@@ -25,9 +25,9 @@
     <ClInclude Include="src\PrimitiveRenderer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="src\LineSegment.cpp" />
     <ClCompile Include="src\Engine.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Point2D.cpp" />
     <ClCompile Include="src\PrimitiveRenderer.cpp" />
   </ItemGroup>

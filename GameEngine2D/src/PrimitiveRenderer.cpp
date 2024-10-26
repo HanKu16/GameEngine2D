@@ -175,6 +175,67 @@ void PrimitiveRenderer::drawCircle(Point2D center, int radius, ColorRGB color) {
     }
 }
 
+void PrimitiveRenderer::drawEllipse(Point2D center, int rx, int ry, ColorRGB color) {
+    if ((rx <= 0) || (ry <= 0)) {
+        return;
+    }
+
+    int x0 = center.x;
+    int y0 = center.y;
+
+    int x = 0;
+    int y = ry;
+
+    int rxSq = rx * rx;
+    int rySq = ry * ry;
+    int twoRxSq = 2 * rxSq;
+    int twoRySq = 2 * rySq;
+    int p;
+    p = rySq - (rxSq * ry) + (0.25 * rxSq);
+
+    int px = 0;
+    int py = twoRxSq * y;
+
+    while (px < py) {
+        (*image).setPixel(x0 + x, y0 + y, sf::Color(color.r, color.g, color.b));
+        (*image).setPixel(x0 - x, y0 + y, sf::Color(color.r, color.g, color.b));
+        (*image).setPixel(x0 + x, y0 - y, sf::Color(color.r, color.g, color.b));
+        (*image).setPixel(x0 - x, y0 - y, sf::Color(color.r, color.g, color.b));
+
+        x++;
+        px += twoRySq;
+        if (p < 0) {
+            p += rySq + px;
+        }
+        else {
+            y--;
+            py -= twoRxSq;
+            p += rySq + px - py;
+        }
+    }
+    p = rySq * (x + 0.5) * (x + 0.5) + rxSq * (y - 1) * (y - 1) - rxSq * rySq;
+    px = twoRySq * x;
+    py = twoRxSq * y;
+
+    while (y >= 0) {
+        (*image).setPixel(x0 + x, y0 + y, sf::Color(color.r, color.g, color.b));
+        (*image).setPixel(x0 - x, y0 + y, sf::Color(color.r, color.g, color.b));
+        (*image).setPixel(x0 + x, y0 - y, sf::Color(color.r, color.g, color.b));
+        (*image).setPixel(x0 - x, y0 - y, sf::Color(color.r, color.g, color.b));
+        
+        y--;
+        py -= twoRxSq;
+        if (p > 0) {
+            p += rxSq - py;
+        }
+        else {
+            x++;
+            px += twoRySq;
+            p += rxSq - py + px;
+        }
+    }
+}
+
 void PrimitiveRenderer::boundaryFill(Point2D p, ColorRGB fillColor, ColorRGB boundaryColor) {
     std::stack<Point2D> pointsStack;
     pointsStack.push(p);

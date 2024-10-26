@@ -24,6 +24,7 @@ public:
     void drawRectangle(Point2D p1, Point2D p2, Point2D p3, Point2D p4, ColorRGB color);
     void drawTriangle(Point2D p1, Point2D p2, Point2D p3, ColorRGB color);
     void drawCircle(Point2D center, int radius, ColorRGB color);
+    void drawEllipse(Point2D center, int r1, int r2, ColorRGB color);
     void boundaryFill(Point2D p, ColorRGB fillColor, ColorRGB boundaryColor);
     void floodFill(Point2D p, ColorRGB fillColor, ColorRGB backgroundColor);
 

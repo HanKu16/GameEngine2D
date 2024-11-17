@@ -1,19 +1,14 @@
 #include "./Point2D.h"
 #include "./LineSegment.h"
+#include "./Types.h"
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Image.hpp>
 #include <vector>
 
-struct ColorRGB {
-    int r;
-    int g;
-    int b;
-};
-
 class PrimitiveRenderer {
     public:
-        PrimitiveRenderer(sf::Image* image, int imageWidth, int imageHeight);
+        static PrimitiveRenderer &getInstance();
         void drawPoint(Point2D point, ColorRGB color);
         void drawLine(Point2D p1, Point2D p2, ColorRGB color);
         void drawLineUsingDDA(LineSegment line, ColorRGB color);
@@ -28,11 +23,16 @@ class PrimitiveRenderer {
         void boundaryFill(Point2D p, ColorRGB fillColor, ColorRGB boundaryColor);
         void floodFill(Point2D p, ColorRGB fillColor, ColorRGB backgroundColor);
 
+        PrimitiveRenderer(const PrimitiveRenderer&) = delete;
+        PrimitiveRenderer& operator=(const PrimitiveRenderer&) = delete;
+
     private:
+        PrimitiveRenderer(sf::Image* image, int imageWidth, int imageHeight);
         double getAbsolute(double value);
 
     private:
         sf::Image* image;
         int imageWidth;
         int imageHeight;
+        static PrimitiveRenderer *pInstance;
 };

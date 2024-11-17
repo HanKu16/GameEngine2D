@@ -1,11 +1,23 @@
 #include "./PrimitiveRenderer.h"
 #include "./Point2D.h"
 #include "./LineSegment.h"
+#include "./Engine.h"
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Image.hpp>
-#include<stack>
+#include <stack>
 
+
+PrimitiveRenderer *PrimitiveRenderer::pInstance = nullptr;
+
+PrimitiveRenderer &PrimitiveRenderer::getInstance(){
+    if(pInstance == nullptr){
+        ImageConf imageConf = Engine::getInstance().getImageConf();
+        pInstance = new PrimitiveRenderer(imageConf.image, imageConf.width, imageConf.height);
+    }
+
+    return *pInstance;
+}
 
 PrimitiveRenderer::PrimitiveRenderer(sf::Image* image, int imageWidth, int imageHeight) {
     this->image = image;

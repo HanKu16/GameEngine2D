@@ -7,6 +7,8 @@ class GameObject{
         Point2D position;
     
     public:
+        GameObject() = default;
+        virtual ~GameObject() = default;
         void setPosition(Point2D position);
         Point2D getPosition();
 };

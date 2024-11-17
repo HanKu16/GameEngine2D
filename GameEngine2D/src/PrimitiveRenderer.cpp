@@ -12,7 +12,7 @@ PrimitiveRenderer *PrimitiveRenderer::pInstance = nullptr;
 
 PrimitiveRenderer &PrimitiveRenderer::getInstance(){
     if(pInstance == nullptr){
-        ImageConf imageConf = Engine::getInstance().getImageConf();
+        CanvasConf imageConf = Engine::getInstance().getCanvasConf();
         pInstance = new PrimitiveRenderer(imageConf.image, imageConf.width, imageConf.height);
     }
 

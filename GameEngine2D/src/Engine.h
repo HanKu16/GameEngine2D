@@ -8,6 +8,9 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Vertex.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -17,6 +20,7 @@
 #include <functional>
 #include <map>
 #include <string>
+#include <vector>
 
 
 
@@ -26,7 +30,9 @@ class Engine{
 
         WindowResolution windowResolution;
 
-        sf::Image image;
+        sf::Image canvas;
+        std::vector<sf::Sprite> drawables;
+        sf::RenderTexture image;
 
         int fps;
 
@@ -50,7 +56,7 @@ class Engine{
 
         void setWindowSettings(int width, int height, WindowStyle style);
 
-        ImageConf getImageConf();
+        CanvasConf getCanvasConf();
         
         void setMaxFPS(int inFPS);
 
@@ -67,6 +73,8 @@ class Engine{
         void setFunctionMouseButton(Mouse button, std::function<void()> mouseFunction);
         
         MouseCords getMousePosition();
+
+        void addToDrawablesQueue(sf::Sprite sprite);
 };
 
 

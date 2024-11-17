@@ -6,14 +6,16 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <SFML/Window/Window.hpp>
-
+#include <SFML/Graphics.hpp>
+#include <vector>
 
 Engine *Engine::pInstance = nullptr;
 
 Engine::Engine(){
     setWindowSettings(800, 800, Window);  
     setMaxFPS(30);
-    image.create(windowResolution.width, windowResolution.height, sf::Color::Black);
+    canvas.create(windowResolution.width, windowResolution.height, sf::Color::Black);
+    image.create(windowResolution.width, windowResolution.height);
 }
 
 Engine &Engine::getInstance(){
@@ -34,8 +36,8 @@ void Engine::setWindowSettings(int width, int height, WindowStyle style){
 
 }
 
-ImageConf Engine::getImageConf(){
-    return ImageConf{&image, windowResolution.width, windowResolution.height};
+CanvasConf Engine::getCanvasConf(){
+    return CanvasConf{&canvas, windowResolution.width, windowResolution.height};
 }
 
 void Engine::setMaxFPS(int inFPS){
@@ -97,14 +99,33 @@ void Engine::handleEvents(){
     }
 }
 
+void Engine::addToDrawablesQueue(sf::Sprite sprite){
+    drawables.push_back(sprite);
+}
+
 void Engine::drawWindow(){
-    sf::Texture texture;
-    texture.loadFromImage(image);
+    window.clear();
+    image.clear();
 
-    sf::Sprite sprite;
-    sprite.setTexture(texture);
+    sf::Texture canvasTexture;
+    canvasTexture.loadFromImage(canvas);
 
-    window.draw(sprite);
+    sf::Sprite canvasSprite;
+    canvasSprite.setTexture(canvasTexture);
+
+    image.draw(canvasSprite);
+
+    for(std::vector<sf::Sprite>::iterator it = drawables.begin(); it != drawables.end(); ++it){
+        image.draw(*it);
+    }
+    drawables.clear();
+
+    image.display();
+
+    sf::Sprite imageSprite;
+    imageSprite.setTexture(image.getTexture());
+
+    window.draw(imageSprite);
 }
 
 void Engine::startLoop(std::function<void()> customLoop){

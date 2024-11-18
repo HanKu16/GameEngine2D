@@ -111,7 +111,6 @@ void Engine::addToDrawablesQueue(sf::Sprite sprite){
 
 void Engine::drawWindow(){
     window.clear();
-    image.clear();
 
     sf::Texture canvasTexture;
     canvasTexture.loadFromImage(canvas);
@@ -119,13 +118,12 @@ void Engine::drawWindow(){
     sf::Sprite canvasSprite;
     canvasSprite.setTexture(canvasTexture);
 
+    image.clear();
     image.draw(canvasSprite);
 
     for(std::vector<sf::Sprite>::iterator it = drawables.begin(); it != drawables.end(); ++it){
         image.draw(*it);
     }
-    drawables.clear();
-
     image.display();
 
     sf::Sprite imageSprite;

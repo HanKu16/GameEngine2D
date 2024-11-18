@@ -40,9 +40,6 @@ void customLoop(){
 
     primitiveRenderer.drawEllipse(Point2D(300, 300), 100, 160, ColorRGB{243, 123, 32});
 
-    BitmapObject bitmap = BitmapObject();
-    std::string spritePath = "./sprite.jpg"; 
-    bitmap.loadBitmap(spritePath, 200, 200);
 }
 
 void keyUpTest(){
@@ -56,10 +53,12 @@ void rightMouseTest(){
 int main(){
     Engine &eng = Engine::getInstance();
     
+    BitmapObject bitmap = BitmapObject();
+    std::string spritePath = "./sprite.jpg"; 
+    bitmap.loadBitmap(spritePath, 200, 200);
 
     eng.setFunctionKey(Up, keyUpTest);
     eng.setFunctionMouseButton(RightClick, rightMouseTest);
-
 
     eng.startLoop(customLoop);
 

@@ -14,6 +14,7 @@ void gameLoop(){
     if(snake.getIsDead())
         exit(0); 
 
+    Engine::getInstance().clearToColor(ColorRGB{0,0,0});
     snake.draw();
     fruit.draw();
 }

@@ -8,6 +8,6 @@ class BitmapObject{
         sf::Sprite sprite;
 
     public:
-        void loadBitmap(std::string &filepath);
+        void loadBitmap(std::string &filepath, float x, float y);
 
 };

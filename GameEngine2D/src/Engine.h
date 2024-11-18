@@ -51,6 +51,8 @@ class Engine{
 
         void drawWindow();
 
+        void clearCanvas();
+
     public:
         static Engine &getInstance(); 
 

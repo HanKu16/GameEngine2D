@@ -103,6 +103,15 @@ void Engine::addToDrawablesQueue(sf::Sprite sprite){
     drawables.push_back(sprite);
 }
 
+void Engine::clearCanvas(){
+    sf::Vector2u size = canvas.getSize();
+    for (unsigned int x = 0; x < size.x; ++x) {
+        for (unsigned int y = 0; y < size.y; ++y) {
+            canvas.setPixel(x, y, sf::Color(0, 0, 0)); 
+        }
+    }
+}
+
 void Engine::drawWindow(){
     window.clear();
     image.clear();
@@ -126,6 +135,7 @@ void Engine::drawWindow(){
     imageSprite.setTexture(image.getTexture());
 
     window.draw(imageSprite);
+    clearCanvas(); 
 }
 
 void Engine::startLoop(std::function<void()> customLoop){

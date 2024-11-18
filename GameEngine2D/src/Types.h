@@ -45,7 +45,7 @@ struct WindowResolution{
     int height;
 };
 
-struct ImageConf{
+struct CanvasConf{
     sf::Image *image;
     int width;
     int height;
